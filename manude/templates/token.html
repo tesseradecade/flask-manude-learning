@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAPI Manude - Enter Token</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body id="black">
+
+<div id="header">
+    <div class="wrapper">
+        <p>LAPI Manude - Enter Token</p>
+    </div>
+</div>
+
+<div class="container">
+	<div>
+		<div style="width: 300px; height: 200px; background: url('/static/logo.png'); background-size: contain; position: relative">
+			<div style="position: absolute; bottom: 0; left: 30%;">
+				<h1>Biophilia {% if get_flashed_messages() %}error{% else %}mirror{% endif %}</h1>
+			</div>
+		</div>
+	</div>
+	<div>
+		<h4 class="title">Auth Session</h4>
+		<form method="get">
+			<div class="omrs-input-group">
+				<label class="omrs-input-underlined">
+				  <input required name="token" id="token">
+				  <span class="omrs-input-label">token</span>
+					<span class="omrs-input-helper">provided only by the admin</span>
+				</label>
+			</div>
+		</form>
+		<div class="omrs-input-group">
+			The service will be available at: <a href="https://timoniq.host/s/manude">timoniq.host/s/manude</a>
+		</div>
+	</div>
+	{% if get_flashed_messages() %}
+		<div>
+			<div class="omrs-input-group">
+				Console:
+			</div>
+			{% for message in get_flashed_messages() %}
+				<div class="omrs-input-group">
+					<p style="color: #E50000;">{{ message }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+</div>
+<div id="footer">
+	<div class="wrapper">
+		<p>Token is provided by the administrator (check <a href="https://timoniq.host">timoniq.host</a> for more information)</p>
+	</div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAPI Manude - Match ({{current_user.photos + 1}} photo)</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script src="/static/jquery-3.4.1.js"></script>
+</head>
+<script>
+    let photo = {{img}};
+</script>
+<script src="/static/main.js"></script>
+
+<body id="black">
+<div class="cursor"></div>
+<div id="header">
+    <div class="wrapper">
+        <p>Match finding object on the picture (you match: {{current_user.photos}})</p>
+    </div>
+</div>
+<img src="/static/imgs/{{img}}.jpg" id="img">
+<div id="footer">
+    <div class="wrapper">
+        <p>Authorised with token: <q>{{current_user.token}}</q> <br>Images in library: {{allim}}</p>
+        <a id="not-suit" href="/">
+            <p>Bad photo, skip</p>
+        </a>
+        <a id="logout" href="/logout">
+            <p>Logout</p>
+        </a>
+    </div>
+</div>
+</body>
+</html>
