@@ -8,7 +8,7 @@ Run app:
 ```python
 from manude import run_app
 # Just run app with a single function
-run_app("127.0.0.1", 80)
+run_app("127.0.0.1", 8080)
 ```
 
 You can easily add a new user (as an example - yourself):
@@ -22,7 +22,7 @@ new_user_manually("123", name="me <3")
 Deploy with `ngrok`:
 
 ```shell script
-ngrok http 80
+ngrok http 8080
 ```
 
 Done!
