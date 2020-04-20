@@ -27,7 +27,7 @@ def run_app(
 
 def new_user_manually(token: str, name: str = None):
     query = {k: v for k, v in locals().items() if v is not None}
-    return User.create(**query)
+    return User.create(**query, ip="0")
 
 
 def delete_user_manually(uid: int = None, token: str = None, name: str = None):

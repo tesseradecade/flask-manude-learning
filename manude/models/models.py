@@ -6,7 +6,7 @@ from flask_login import UserMixin
 class User(peewee.Model, UserMixin):
     id = peewee.IntegerField(primary_key=True)
     token = peewee.CharField()
-    ip = peewee.CharField()
+    ip = peewee.CharField(null=True)
     photos = peewee.IntegerField(default=0)
     username = peewee.CharField()
 
