@@ -25,11 +25,11 @@ def run_app(
     app.run(host, port)
 
 
-def new_user_manually(token: str, name: str = None):
+def new_user_manually(token: str, username: str = None):
     query = {k: v for k, v in locals().items() if v is not None}
     return User.create(**query, ip="0")
 
 
-def delete_user_manually(uid: int = None, token: str = None, name: str = None):
+def delete_user_manually(uid: int = None, token: str = None, username: str = None):
     query = {k: v for k, v in locals().items() if v is not None}
     return User.get(**query).delete()

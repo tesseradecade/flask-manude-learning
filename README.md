@@ -16,7 +16,7 @@ You can easily add a new user (as an example - yourself):
 ```python
 from manude.util import new_user_manually
 
-new_user_manually("123", name="me <3")
+new_user_manually("123", username="me <3")
 ```
 
 Deploy with `ngrok`:

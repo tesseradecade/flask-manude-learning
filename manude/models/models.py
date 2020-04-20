@@ -8,7 +8,7 @@ class User(peewee.Model, UserMixin):
     token = peewee.CharField()
     ip = peewee.CharField(null=True)
     photos = peewee.IntegerField(default=0)
-    username = peewee.CharField()
+    username = peewee.CharField(null=True)
 
     class Meta:
         database = db
