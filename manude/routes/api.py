@@ -1,5 +1,5 @@
 from flask import request
-from databases import User
+from manude.models import User
 from ..app import app
 
 

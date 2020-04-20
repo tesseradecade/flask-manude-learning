@@ -1,8 +1,16 @@
 from flask import render_template, request, redirect, flash, Response
-from databases import User, Label
+from manude.models import User, Label
 from urllib import parse
 from flask_login import current_user, login_user, logout_user, login_required
-from ..app import app, images
+from ..app import app
+import os
+
+
+images = [
+    int(image.replace(".jpg", ""))
+    for image in os.listdir(app.config.get("image_dir", "."))
+    if not image.startswith(".")
+]
 
 
 @app.route("/")
