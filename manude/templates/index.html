@@ -15,14 +15,19 @@
 <div class="cursor"></div>
 <div id="header">
     <div class="wrapper">
-        <p>Match finding object on the picture (you match: {{current_user.photos}})</p>
+        <p>
+            Match finding object on the picture (you match: {{current_user.photos}})
+            {% for message in get_flashed_messages() %}
+                <br><span style="color: #E50000;">{{ message }}</span>
+            {% endfor %}
+        </p>
     </div>
 </div>
 <img src="/static/imgs/{{img}}.jpg" id="img">
 <div id="footer">
     <div class="wrapper">
         <p>Authorised with token: <q>{{current_user.token}}</q> <br>Images in library: {{allim}}</p>
-        <a id="not-suit" href="/">
+        <a id="not-suit" href="/?bf">
             <p>Bad photo, skip</p>
         </a>
         <a id="logout" href="/logout">

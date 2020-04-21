@@ -1,11 +1,12 @@
-from flask import render_template, request, redirect, flash, Response
+from flask import render_template, request, redirect, flash, Response, Request, jsonify
 from manude.models import User, Label
 from urllib import parse
 from flask_login import current_user, login_user, logout_user, login_required
 from ..app import app
-import os
+import os, json
 
 
+request: Request
 images = [
     int(image.replace(".jpg", ""))
     for image in os.listdir(app.config.get("image_dir", "."))
@@ -27,7 +28,11 @@ def index():
             flash("Photos are all completed. See you later")
             logout_user()
             return render_template("token.html")
+        elif request.query_string == b"bf":
+            flash(f"You marked {current_user.photos} as a bad photo (skipped)")
+            current_user.photos += 1
 
+        current_user.save()
         # Standard match menu
         return render_template("index.html", img=images[current_user.photos], allim=max(images))
 
@@ -47,18 +52,19 @@ def index():
 def take():
     """
     Method takes all the incoming data from the fetching request after the user's match
-    :return: 200 or error
+    :return: json
     """
     ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(",")[0]
     current_user.ip = ip
-    data = parse.parse_qs(request.get_data(as_text=True))
+    data = json.loads(request.data)
 
     if "m" in data and "p" in data:
-        arg = request.args["m"][0].split("-")
-        photo = request.args["p"][0]
+        arg = data["m"].split("-")
+        photo = data["p"]
 
-        if not photo.isdigit() or not "".join(arg).isdigit():
-            return {"error": "m should be specified as a specific schema, p should be integer"}
+        if not isinstance(photo, int) or not "".join(arg).isdigit():
+            print("error")
+            return jsonify({"error": "m should be specified as a specific schema, p should be integer"})
 
         arg = list(map(int, arg))
 
@@ -67,15 +73,15 @@ def take():
         ymax, ymin = arg[0] - (arg[2] // 2), arg[1] - (arg[3] // 2)
 
         Label.create(
-            photo_id=int(photo),
+            photo_id=photo,
             user_id=current_user.id,
             label="{},{},{},{}".format(xmin, xmax, ymin, ymax)
         )
         current_user.photos += 1
         current_user.save()
+        return jsonify({"success": True})
     else:
-        return {"error": "Parameters m and p are required"}
-    return Response(status=200)
+        return jsonify({"error": "Parameters m and p are required"})
 
 
 @app.route("/logout")

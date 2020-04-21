@@ -21,13 +21,12 @@ $(document).ready(function(){
                           'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                          "m": + start.x + "-" + start.y + "-" + Math.ceil($(".cursor").css("width").replace("px", "")) + "-" + Math.ceil($(".cursor").css("height").replace("px", "")),
-                          "p": photo
-                        }),
+                          m: start.x + "-" + start.y + "-" + Math.ceil($(".cursor").css("width").replace("px", "")) + "-" + Math.ceil($(".cursor").css("height").replace("px", "")),
+                          p: photo,
+                        })
                       });
-                      const content = await rawResponse.json();
-
-                      console.log(content);
+                      await rawResponse.json();
+                      window.location = "/";
                     })();
                 }
                 if (start.y < end.y) {
