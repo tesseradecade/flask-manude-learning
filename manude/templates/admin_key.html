@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAPI Manude - Admin Panel</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body id="black">
+
+<div id="header">
+    <div class="wrapper">
+        <p>LAPI Manude - Admin Panel</p>
+    </div>
+</div>
+
+<div class="container">
+	<div>
+		<h4 class="title">Authorised Users</h4>
+		<div class="omrs-input-group">
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>token</th>
+					<th>username</th>
+					<th>photos</th>
+					<th>is_admin</th>
+				</tr>
+				{% for user in users %}
+				<tr>
+					<th>{{ user.id }}</th>
+					<th>{{ user.token }}</th>
+					<th>{{ user.username or "-" }}</th>
+					<th>{{ user.photos }}</th>
+					<th>{{ user.is_admin }}</th>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="omrs-input-group">
+			About this service: <a href="https://timoniq.host/s/flask-manude-learning">timoniq.host/s/flask-manude-learning</a>
+		</div>
+	</div>
+	<div>
+		<h4 class="title">Info</h4>
+		<div class="omrs-input-group">
+			Labels created: {{ labels|length }}<br>
+			Last label:
+			{% if labels %}
+			for {{ labels[-1].photo_id }} from {{ labels[-1].user_id }} ({{ labels[-1].label }})<br>
+			<hr>
+			<img src="/static/imgs/{{ labels[-1].photo_id }}.jpg" width="70px" style="float: left; margin-right: 10px;">
+			Photo is shown without user's match<br>
+			Make a preview to see it (special requirements!)
+			(<a href="/label/{{ labels[-1].id }}">press to get a preview</a>)
+			<hr>
+			{% else %}
+			no labels still
+			{% endif %}
+		</div>
+	</div>
+	{% if get_flashed_messages() %}
+		<div>
+			<div class="omrs-input-group">
+				Console:
+			</div>
+			{% for message in get_flashed_messages() %}
+				<div class="omrs-input-group">
+					<p style="color: #E50000;">{{ message }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+</div>
+<div id="footer">
+	<div class="wrapper">
+		<p>Token is provided by the administrator (check <a href="https://timoniq.host">timoniq.host</a> for more information)</p>
+	</div>
+</div>
+</body>
+
+</html>

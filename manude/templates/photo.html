@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAPI Manude - Photo</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script src="/static/jquery-3.4.1.js"></script>
+</head>
+
+<body id="black">
+<div id="header">
+    <div class="wrapper">
+        <p>
+            Photo
+            {% for message in get_flashed_messages() %}
+                <br><span style="color: #E50000;">{{ message }}</span>
+            {% endfor %}
+        </p>
+    </div>
+</div>
+<img src="{{path}}" id="img">
+</body>
+</html>

@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, flash, Response, Request, 
 from manude.models import User, Label
 from urllib import parse
 from flask_login import current_user, login_user, logout_user, login_required
-from ..app import app
+from ..app import app, login
 import os, json
 
 
@@ -69,8 +69,7 @@ def take():
         arg = list(map(int, arg))
 
         # noqa
-        xmax, xmin = arg[0] + (arg[2] // 2), arg[1] + (arg[3] // 2)
-        ymax, ymin = arg[0] - (arg[2] // 2), arg[1] - (arg[3] // 2)
+        xmin, ymin, xmax, ymax = arg
 
         Label.create(
             photo_id=photo,
@@ -93,4 +92,9 @@ def logout():
     """
     logout_user()
     flash("You was logged out")
+    return redirect("/")
+
+@login.unauthorized_handler
+def go_login():
+    flash("You should login to access this page")
     return redirect("/")
