@@ -55,9 +55,12 @@ static_path = calculate_static(abs_path)
 
 ## Image quality requirements
 
-1000x1000px (unfilled is black)
+1000x1000px (unfilled is black)  
+Named as an ID of the image (eg `57.jpg`)  
+Extension - `jpg`
 
-Named as an ID of the image (eg `57.jpg`)
+To download your own photos to the dataset use [image-download-util](https://github.com/timoniq/image-download-util)  
+Use `rename_photos_for_static` from `manude.util` to move downloaded files into the static folder
 
 ## Admin panel and APIs
 

@@ -1,8 +1,10 @@
 from manude.models.database import db
 from manude.models.models import models, User
-from os import urandom, makedirs, path
+from os import urandom, makedirs, path, listdir
 import typing
 import pkg_resources
+import sys
+import shutil
 
 
 def get_installed_packages() -> typing.List[str]:
@@ -105,3 +107,40 @@ def delete_user_manually(uid: int = None, token: str = None, username: str = Non
     stable_database_connection()
     query = {k: v for k, v in locals().items() if v is not None}
     return User.get(**query).delete()
+
+def get_last_photo_id(folder_path: str):
+    photo_ids = [int(photo_name.split(".")[0]) for photo_name in listdir(folder_path)]
+    return max(photo_ids)
+
+
+def rename_photos_for_static(
+        path_to_photos: str,
+        path_to_static: str,
+        copy_files: bool = True,
+) -> typing.List[str]:
+    """
+    Rename downloaded photos (with image-download-util)
+    :param path_to_photos:
+    :param path_to_static:
+    :param copy_files:
+    :return: list of renamed photo paths
+    """
+    sys.setrecursionlimit(5)  # maximal nesting
+    file_names = []
+    for file_name in listdir(path_to_photos):
+        if "." not in file_name:
+            # recursive
+            file_names.extend(
+                rename_photos_for_static(path.join(path_to_photos, file_name), path_to_static)
+            )
+        elif file_name.split(".")[-1] != "jpg":
+            print(f"file type {file_name} is not supported")
+        else:
+            # change value copy_files to change mode
+            mode = shutil.copyfile if copy_files else shutil.move
+            photo_id = get_last_photo_id(path_to_static) + 1
+            new_path = path.join(path_to_static, f"{photo_id}.jpg")
+
+            mode(path.join(path_to_photos, file_name), new_path)
+            file_names.append(new_path)
+    return file_names

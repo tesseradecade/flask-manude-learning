@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from manude.models import User
 from ..app import app
 
@@ -39,3 +39,15 @@ def get_user(uid: int) -> dict:
         "photos": {"count": user.photos, "percent": round(mean * user.photos, 2)},
         "name": user.username,
     }
+
+
+@app.route("/u/top")
+def get_top():
+    return jsonify(
+        [{"id": u.id, "photos": u.photos, "name": u.username} for u in User.select().order_by(User.photos)]
+    )
+
+
+@app.route("/confirm")
+def confirm():
+    return {"status": 1, "name": "flask-manude-learning app"}
