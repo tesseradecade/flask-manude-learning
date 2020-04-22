@@ -3,7 +3,6 @@ from manude.models.models import models, User
 from os import urandom, makedirs, path, listdir
 import typing
 import pkg_resources
-import sys
 import shutil
 
 
@@ -125,7 +124,6 @@ def rename_photos_for_static(
     :param copy_files:
     :return: list of renamed photo paths
     """
-    sys.setrecursionlimit(5)  # maximal nesting
     file_names = []
     for file_name in listdir(path_to_photos):
         if "." not in file_name:

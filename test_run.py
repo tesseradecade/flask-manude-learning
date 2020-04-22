@@ -1,5 +1,3 @@
-from manude.util import run_app, new_user_manually
+from manude import run_app
 
-
-new_user_manually("beautiful_token")
 run_app(port=8080)
