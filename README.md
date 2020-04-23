@@ -82,7 +82,7 @@ Admin panel todo:
 
 - [ ] Ban users from the list with one click
 - [ ] Approve user as an administrator with one click
-- [ ] Gain access to all the labels by the filter (all users/one user)
+- [x] Gain access to all the labels by the filter (all users/one user)
 
 ### APIs
 

@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from manude.models import User, Label
 from flask import render_template, flash, redirect
 from flask_login import login_required, current_user
@@ -31,6 +31,8 @@ def preview_label(label_id: int):
     if abs_image_path is False:
         return "Requirements are not satisfied, see logs"
     static_image_path = calculate_static(abs_image_path)
+    if request.args.get("only_path"):
+        return jsonify({"path": static_image_path})
     return render_template(
         "photo.html",
         path=static_image_path,

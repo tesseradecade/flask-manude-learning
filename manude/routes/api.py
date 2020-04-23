@@ -1,6 +1,9 @@
-from flask import request, jsonify
-from manude.models import User
+from flask import request, jsonify, Request
+from manude.models import User, Label
 from ..app import app
+
+
+request: Request
 
 
 @app.route("/u/<int:uid>/<token>")
@@ -41,10 +44,19 @@ def get_user(uid: int) -> dict:
     }
 
 
+@app.route("/labels")
+def get_labels():
+    if request.args.get("filter", "").isdigit():
+        f = Label.filter(user_id=int(request.args["filter"]))
+    else:
+        f = Label.select()
+    return jsonify([{"id": label.id, "user_id": label.user_id} for label in f])
+
+
 @app.route("/u/top")
 def get_top():
     return jsonify(
-        [{"id": u.id, "photos": u.photos, "name": u.username} for u in User.select().order_by(User.photos)]
+        [{"id": u.id, "photos": u.photos, "name": u.username} for u in User.select().order_by(-User.photos)]
     )
 
 

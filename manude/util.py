@@ -46,11 +46,15 @@ def make_preview(
 
     config = config or app.config
 
+    image_path = config["image_dir"] + f"/{photo_id}.jpg"
+    temp_path = "/".join(config["image_dir"].split("/")[:-1]) + "/temp"
+
+    if path.exists(temp_path + f"/{photo_id}_{x1}_{x2}_{y1}_{y2}.jpg"):
+        return temp_path + f"/{photo_id}_{x1}_{x2}_{y1}_{y2}.jpg"
+
     import numpy as np
     import cv2
 
-    image_path = config["image_dir"] + f"/{photo_id}.jpg"
-    temp_path = "/".join(config["image_dir"].split("/")[:-1]) + "/temp"
     color = np.array(color, dtype="int16")
 
     image = cv2.imread(image_path)
