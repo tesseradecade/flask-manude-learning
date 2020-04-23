@@ -1,6 +1,6 @@
 from manude.models.database import db
 from manude.models.models import models, User
-from os import urandom, makedirs, path, listdir
+from os import urandom, makedirs, path, listdir, remove
 import typing
 import pkg_resources
 import shutil
@@ -142,3 +142,54 @@ def rename_photos_for_static(
             mode(path.join(path_to_photos, file_name), new_path)
             file_names.append(new_path)
     return file_names
+
+def resize_to_required_qualities(
+        path_to_photos: str,
+        delete_broken: bool = True,
+):
+    installed_pkg = get_installed_packages()
+
+    if "opencv-python" not in installed_pkg or "numpy" not in installed_pkg:
+        print("You need to install opencv-python and numpy packages to use method resize_to_required_qualities")
+        return False
+
+    import numpy as np
+    import cv2
+
+    def resize_to_square(im: np.array, desired_size: int = 1000):
+        if im.shape == (desired_size, desired_size, 3):
+            return im
+
+        old_size = im.shape[:2]
+
+        ratio = float(desired_size) / max(old_size)
+        new_size = tuple([int(x * ratio) for x in old_size])
+        im = cv2.resize(im, (new_size[1], new_size[0]))
+
+        delta_w = desired_size - new_size[1]
+        delta_h = desired_size - new_size[0]
+
+        top, bottom = delta_h // 2, delta_h - (delta_h // 2)
+        left, right = delta_w // 2, delta_w - (delta_w // 2)
+
+        color = [0, 0, 0]
+        im = cv2.copyMakeBorder(
+            im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color
+        )
+        return im
+
+    for file_name in listdir(path_to_photos):
+        if file_name.endswith(".jpg"):
+            print(file_name)
+            image = cv2.imread(path.join(path_to_photos, file_name))
+            if image is None and delete_broken:
+                remove(path.join(path_to_photos, file_name))
+                continue
+            cv2.imwrite(
+                path.join(path_to_photos, file_name),
+                resize_to_square(image),
+            )
+        else:
+            print(f"file type {file_name} is not supported")
+
+

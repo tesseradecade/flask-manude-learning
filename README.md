@@ -60,7 +60,16 @@ Named as an ID of the image (eg `57.jpg`)
 Extension - `jpg`
 
 To download your own photos to the dataset use [image-download-util](https://github.com/timoniq/image-download-util)  
-Use `rename_photos_for_static` from `manude.util` to move downloaded files into the static folder
+Use `rename_photos_for_static` and `resize_to_required_qualities` from `manude.util` to move downloaded files into the static folder  
+Example of custom dataset download:  
+
+```python
+from manude.util import rename_photos_for_static, resize_to_required_qualities
+from downloader import start_all
+start_all(["shirtless guy"], ["strong", "fit", "handsome"], download_dir="./data/")
+resize_to_required_qualities("./data/")
+rename_photos_for_static("./data/", "manude/static/imgs/")
+```
 
 ## Admin panel and APIs
 
