@@ -5,6 +5,11 @@ import typing
 import pkg_resources
 import shutil
 
+try:
+    import numpy as np
+    import cv2
+except ImportError:
+    pass
 
 def get_installed_packages() -> typing.List[str]:
     return [
@@ -51,9 +56,6 @@ def make_preview(
 
     if path.exists(temp_path + f"/{photo_id}_{x1}_{x2}_{y1}_{y2}.jpg"):
         return temp_path + f"/{photo_id}_{x1}_{x2}_{y1}_{y2}.jpg"
-
-    import numpy as np
-    import cv2
 
     color = np.array(color, dtype="int16")
 
