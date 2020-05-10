@@ -159,9 +159,6 @@ def resize_to_required_qualities(
         print("You need to install opencv-python and numpy packages to use method resize_to_required_qualities")
         return False
 
-    import numpy as np
-    import cv2
-
     def resize_to_square(im: np.array, desired_size: int = 1000):
         if im.shape == (desired_size, desired_size, 3):
             return im
