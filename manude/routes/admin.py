@@ -20,14 +20,14 @@ def panel():
 
 @app.route("/remove_label/<int:label_id>")
 @login_required
-def panel(label_id: int):
+def remove(label_id: int):
     if not current_user.is_admin:
         flash("You have no admin permission")
         return redirect("/")
     label = Label.get_or_none(id=label_id)
     if label is None:
         return {"error": "not found"}
-    await label.delete()
+    label.delete()
     return {"success": True}
 
 
