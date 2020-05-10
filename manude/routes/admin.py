@@ -27,7 +27,7 @@ def remove(label_id: int):
     label = Label.get_or_none(id=label_id)
     if label is None:
         return {"error": "not found"}
-    label.delete()
+    label.delete_instance()
     return {"success": True}
 
 

@@ -11,8 +11,10 @@ async function update_label_panel(labels) {
     let cross_a = document.createElement("a");
     let cross = document.createElement("img");
     a.className = "label";
+    a.id = label.id;
     cross.src = "/static/cross.png";
     cross.className = "cross";
+    cross_a.onclick = function() { remove_label(label.id) };
     img.src = label_response.path;
     img.style.width = "100px";
     a.append(img);
@@ -20,6 +22,13 @@ async function update_label_panel(labels) {
     a.append(cross_a);
     container.append(a);
   }
+}
+
+function remove_label(label_id) {
+  (async () => {
+    document.getElementById(label_id).remove();
+    await fetch("/remove_label/" + label_id, {});
+  })();
 }
 
 $(document).ready(function() {
