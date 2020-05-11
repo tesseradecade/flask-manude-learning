@@ -62,4 +62,4 @@ def get_top():
 
 @app.route("/confirm")
 def confirm():
-    return {"status": 1, "name": "flask-manude-learning app"}
+    return {"success": True, "name": "flask-manude-learning app"}
