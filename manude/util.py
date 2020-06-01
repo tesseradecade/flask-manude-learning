@@ -11,6 +11,11 @@ try:
 except ImportError:
     pass
 
+try:
+    from pyngrok import ngrok
+except ImportError:
+    ngrok = None
+
 def get_installed_packages() -> typing.List[str]:
     return [
         pkg.key for pkg in pkg_resources.working_set
@@ -100,6 +105,15 @@ def run_app(
     stable_database_connection()
     app.secret_key = secret_key or urandom(24)
     app.run(host, port)
+
+
+def run_with_ngrok(port: int = 8081):
+    """ Run app with ngrok """
+    if ngrok is None:
+        raise ImportError("pyngrok must be installed to use run_with_ngrok")
+    public_url = ngrok.connect(port)
+    print(f"App was started on {public_url}")
+    run_app(port=port)
 
 
 def new_user_manually(token: str, username: str = None):
