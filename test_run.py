@@ -1,3 +1,3 @@
-from manude import run_with_ngrok
+from manude import run_app
 
-run_with_ngrok(port=8080)
+run_app(port=8080)

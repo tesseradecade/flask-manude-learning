@@ -34,7 +34,9 @@ def index():
 
         current_user.save()
         # Standard match menu
-        return render_template("index.html", img=images[current_user.photos], allim=max(images))
+        return render_template(
+            "index.html", img=images[current_user.photos], allim=max(images)
+        )
 
     elif request.args.get("token"):
         user = User.get_or_none(token=request.args["token"])
@@ -64,7 +66,11 @@ def take():
 
         if not isinstance(photo, int) or not "".join(arg).isdigit():
             print("error")
-            return jsonify({"error": "m should be specified as a specific schema, p should be integer"})
+            return jsonify(
+                {
+                    "error": "m should be specified as a specific schema, p should be integer"
+                }
+            )
 
         arg = list(map(int, arg))
 
@@ -74,7 +80,7 @@ def take():
         Label.create(
             photo_id=photo,
             user_id=current_user.id,
-            label="{},{},{},{}".format(xmin, xmax, ymin, ymax)
+            label="{},{},{},{}".format(xmin, xmax, ymin, ymax),
         )
         current_user.photos += 1
         current_user.save()
@@ -93,6 +99,7 @@ def logout():
     logout_user()
     flash("You was logged out")
     return redirect("/")
+
 
 @login.unauthorized_handler
 def go_login():

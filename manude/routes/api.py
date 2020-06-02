@@ -56,7 +56,10 @@ def get_labels():
 @app.route("/u/top")
 def get_top():
     return jsonify(
-        [{"id": u.id, "photos": u.photos, "name": u.username} for u in User.select().order_by(-User.photos)]
+        [
+            {"id": u.id, "photos": u.photos, "name": u.username}
+            for u in User.select().order_by(-User.photos)
+        ]
     )
 
 

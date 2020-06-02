@@ -27,6 +27,7 @@
 					<th>username</th>
 					<th>photos</th>
 					<th>is_admin</th>
+					<th>actions</th>
 				</tr>
 				{% for user in users %}
 				<tr>
@@ -35,6 +36,7 @@
 					<th>{{ user.username or "-" }}</th>
 					<th>{{ user.photos }}</th>
 					<th>{{ user.is_admin }}</th>
+					<th><a href="/remove_user/{{ user.id }}">ban</a> / <a href="/make_admin/{{ user.id }}">adminify</a></th>
 				</tr>
 				{% endfor %}
 			</table>

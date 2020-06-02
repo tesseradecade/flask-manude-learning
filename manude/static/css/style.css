@@ -258,3 +258,7 @@ div.omrs-input-group {
 .omrs-input-filled:not(.omrs-input-danger) > input:focus ~ svg {
 	fill: var(--omrs-color-ink-high-contrast);
 }
+
+#labels {
+margin-bottom: 100px;
+}

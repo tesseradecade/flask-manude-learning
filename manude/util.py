@@ -16,10 +16,9 @@ try:
 except ImportError:
     ngrok = None
 
+
 def get_installed_packages() -> typing.List[str]:
-    return [
-        pkg.key for pkg in pkg_resources.working_set
-    ]
+    return [pkg.key for pkg in pkg_resources.working_set]
 
 
 def stable_database_connection() -> db:
@@ -33,21 +32,22 @@ def calculate_static(abs_path: str) -> str:
     abs_path = abs_path.split("/")
     if "static" not in abs_path:
         raise Exception("Folder has no estimation to static")
-    new_path = abs_path[abs_path.index("static"):]
+    new_path = abs_path[abs_path.index("static") :]
     return "/" + "/".join(new_path)
 
 
 def make_preview(
-        photo_id: int,
-        x1: int,
-        x2: int,
-        y1: int,
-        y2: int,
-        as_window: bool = False,
-        config: dict = None,
-        color: tuple = (73, 98, 240),
+    photo_id: int,
+    x1: int,
+    x2: int,
+    y1: int,
+    y2: int,
+    as_window: bool = False,
+    config: dict = None,
+    color: tuple = (73, 98, 240),
 ) -> typing.Union[str, bool]:
     from .app import app
+
     installed_pkg = get_installed_packages()
 
     if "opencv-python" not in installed_pkg or "numpy" not in installed_pkg:
@@ -86,10 +86,10 @@ def make_preview(
 
 
 def run_app(
-        host: str = None,
-        port: int = None,
-        secret_key: str = None,
-        image_dir: str = "manude/static/imgs",
+    host: str = None,
+    port: int = None,
+    secret_key: str = None,
+    image_dir: str = "manude/static/imgs",
 ):
     """
     Run flask app directly
@@ -100,8 +100,10 @@ def run_app(
     :return:
     """
     from .app import app
+
     app.config["image_dir"] = image_dir or "imgs"
     from manude.routes import api, main, admin
+
     stable_database_connection()
     app.secret_key = secret_key or urandom(24)
     app.run(host, port)
@@ -127,15 +129,14 @@ def delete_user_manually(uid: int = None, token: str = None, username: str = Non
     query = {k: v for k, v in locals().items() if v is not None}
     return User.get(**query).delete()
 
+
 def get_last_photo_id(folder_path: str):
     photo_ids = [int(photo_name.split(".")[0]) for photo_name in listdir(folder_path)]
     return max(photo_ids)
 
 
 def rename_photos_for_static(
-        path_to_photos: str,
-        path_to_static: str,
-        copy_files: bool = True,
+    path_to_photos: str, path_to_static: str, copy_files: bool = True,
 ) -> typing.List[str]:
     """
     Rename downloaded photos (with image-download-util)
@@ -149,7 +150,9 @@ def rename_photos_for_static(
         if "." not in file_name:
             # recursive
             file_names.extend(
-                rename_photos_for_static(path.join(path_to_photos, file_name), path_to_static)
+                rename_photos_for_static(
+                    path.join(path_to_photos, file_name), path_to_static
+                )
             )
         elif file_name.split(".")[-1] != "jpg":
             print(f"file type {file_name} is not supported")
@@ -163,14 +166,16 @@ def rename_photos_for_static(
             file_names.append(new_path)
     return file_names
 
+
 def resize_to_required_qualities(
-        path_to_photos: str,
-        delete_broken: bool = True,
+    path_to_photos: str, delete_broken: bool = True,
 ):
     installed_pkg = get_installed_packages()
 
     if "opencv-python" not in installed_pkg or "numpy" not in installed_pkg:
-        print("You need to install opencv-python and numpy packages to use method resize_to_required_qualities")
+        print(
+            "You need to install opencv-python and numpy packages to use method resize_to_required_qualities"
+        )
         return False
 
     def resize_to_square(im: np.array, desired_size: int = 1000):
@@ -203,10 +208,7 @@ def resize_to_required_qualities(
                 remove(path.join(path_to_photos, file_name))
                 continue
             cv2.imwrite(
-                path.join(path_to_photos, file_name),
-                resize_to_square(image),
+                path.join(path_to_photos, file_name), resize_to_square(image),
             )
         else:
             print(f"file type {file_name} is not supported")
-
-

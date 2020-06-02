@@ -85,9 +85,10 @@ in admin panel you can get info about the amount of matched photos each user pos
 
 Admin panel todo:
 
-- [ ] Ban users from the list with one click
-- [ ] Approve user as an administrator with one click
+- [x] Ban users from the list with one click
+- [x] Approve user as an administrator with one click
 - [x] Gain access to all the labels by the filter (all users/one user)
+- [x] Delete labels from the queue by the one click
 
 ### APIs
 
